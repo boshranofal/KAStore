@@ -6,13 +6,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KAStore.DAL.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class add : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Brand",
+                table: "Brand");
+
+            migrationBuilder.RenameTable(
                 name: "Brand",
+                newName: "Brands");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Brands",
+                table: "Brands",
+                column: "Id");
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -23,7 +36,7 @@ namespace KAStore.DAL.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Brand", x => x.Id);
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
         }
 
@@ -31,7 +44,20 @@ namespace KAStore.DAL.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Brand");
+                name: "Categories");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Brands",
+                table: "Brands");
+
+            migrationBuilder.RenameTable(
+                name: "Brands",
+                newName: "Brand");
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Brand",
+                table: "Brand",
+                column: "Id");
         }
     }
 }

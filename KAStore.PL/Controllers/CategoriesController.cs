@@ -1,4 +1,4 @@
-﻿using KAStore.BLL.Serviece;
+﻿using KAStore.BLL.Serviece.Interfaces;
 using KAStore.DAL.DTO.Request;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,52 +9,50 @@ namespace KAStore.PL.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly ICategoryServiece categoryServiece;
+        private readonly ICategoryServiece _categoryServiece;
 
         public CategoriesController( ICategoryServiece categoryServiece)
         {
-            this.categoryServiece = categoryServiece;
+            _categoryServiece = categoryServiece;
         }
 
         [HttpGet("")]
-        public IActionResult GetAll()
-        {
-            return Ok(categoryServiece.GetAllCategories()); 
-        }
+        public IActionResult GetAll()=> Ok(_categoryServiece.GetAll()); 
+        
 
         [HttpGet("{id}")]
         public IActionResult GetById([FromRoute]int id)
         {
-            var category=categoryServiece.GetCategoryById(id);
-            if (category == null)
+            var brand= _categoryServiece.GetById(id);
+            if (brand == null)
             {
                 return NotFound();
             }
-            return Ok(category);
+            return Ok(brand);
         }
         [HttpPost]
 
         public IActionResult Create([FromBody]CategoryRequest request)
         {
-            var id =categoryServiece.CreateCategory(request);
-            return CreatedAtAction(nameof(GetById),new { id });
+            var id = _categoryServiece.Create(request);
+            return CreatedAtAction(nameof(GetById),new { id },new {message="Ok "});
         }
         [HttpPatch("{Id}")]
         public IActionResult Update([FromRoute]int Id, [FromBody] CategoryRequest request)
         {
-            var update=categoryServiece.Update(Id,request);
+            var update= _categoryServiece.Update(Id,request);
             return update > 0 ? Ok() : NotFound();
         }
         [HttpPatch("ToggleStatus/{id}")]
         public IActionResult ToggleStatus([FromRoute]int id)
         {
-            var update=categoryServiece.ToggleStatus(id);
-            return update ? Ok(new { message = "status toggled" }) : NotFound(new { message = "category not found" });
+            var update= _categoryServiece.ToggleStatus(id);
+            return update ? Ok(new { message = "status toggled" }) : NotFound(new { message = "brand not found" });
         }
         [HttpDelete("Id")]
         public IActionResult Delete(int id)
         {
-            var deleted=categoryServiece.DeleteCategory(id);
+            var deleted= _categoryServiece.Delete(id);
             return deleted > 0 ? Ok() : NotFound();
         }
 

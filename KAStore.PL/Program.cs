@@ -1,7 +1,9 @@
-
-using KAStore.BLL.Serviece;
+using KAStore.BLL.Serviece.Classes;
+using KAStore.BLL.Serviece.Interfaces;
 using KAStore.DAL.Data;
-using KAStore.DAL.Reposteries;
+using KAStore.DAL.Model;
+using KAStore.DAL.Reposteries.Classes;
+using KAStore.DAL.Reposteries.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace KAStore.PL
@@ -20,11 +22,14 @@ namespace KAStore.PL
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefualtConnection")));
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 
-            builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
+
             builder.Services.AddScoped <ICategoryServiece,CategoryServiece>();
+            builder.Services.AddScoped<IBrandServices,BrandServiece>();
 
-              
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

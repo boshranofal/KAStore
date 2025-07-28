@@ -25,7 +25,7 @@ namespace KAStore.DAL.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("KAStore.DAL.Model.Category", b =>
+            modelBuilder.Entity("KAStore.DAL.Model.brand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +45,7 @@ namespace KAStore.DAL.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Brand");
                 });
 #pragma warning restore 612, 618
         }
